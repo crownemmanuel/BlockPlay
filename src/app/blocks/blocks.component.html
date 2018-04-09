@@ -1,0 +1,20 @@
+<button (click)="addblock()" type="button" class="btn btn-success" id="add-block">
+    Button
+  </button>
+
+<div class="template2">
+    <div class="col-md-2" *ngFor="let block of blockchain" id="block-{{block.index}}">
+        <div class="wrapper" id="guy">
+            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="
+          '<input [(ngModel)]=block.data.amount>'">
+                <b class="front">{{block.index}}</b>
+                <b class="back"></b>
+                <b class="top"></b>
+                <b class="bottom"></b>
+                <b class="left">{{block.index}}</b>
+                <b class="right"></b>
+            </div>
+        </div>
+    </div>
+</div>
+{{currentData}} {{childMessage}}

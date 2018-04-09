@@ -1,3 +1,15 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    BlockPlay
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row blocks-container">
+        <input [(ngModel)]="parentMessage">
+        <app-blocks [childMessage]="parentMessage"></app-blocks>
+    </div>
+</div>
