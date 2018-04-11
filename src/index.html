@@ -9,18 +9,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="assets/css/bootstrap-3.3.7.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-tour.min.css">
 </head>
 
 <body>
     <app-root>Loading...</app-root>
     <script src="assets/js/vendor/jquery.min.js"></script>
     <script src="assets/js/vendor/bootstrap.3.3.7.js"></script>
+    <script src="assets/js/vendor/bootstrap-tour.min.js"></script>
     <script src="assets/js/vendor/jqSimpleConnect.js"></script>
     <script src="assets/js/vendor/sha256.js"></script>
     <script src="assets/js/apphelper.js"></script>
     <script src="assets/js/blockchain.js"></script>
 
 </body>
+<script>
+    $('#modal-container-welcome').modal('show');
+    // Instance the tour
+    var tour = new Tour({
+        orphan: true,
+        steps: [{
+            element: "#blank",
+            title: "Welcome",
+            content: "Welcome to the BlockPlay tutorial, if you have little knowledge on blockchains we strongly recommend you watch the intro video before continuing"
+        }, {
+            element: "#block-0",
+            title: "Genesis Block",
+            content: "This is the first block in the blockchain it, it defines how the rest of the blocks will store data. for this tutorial we are storing an amount value"
+        }, {
+            element: "#block-0",
+            title: "View Block Information",
+            placement: "bottom",
+            content: "You can view information about a block and see the data in it by clicking it",
+            onShow: function(tour) {
+                $('.cube').click();
+            }
+        }, {
+            element: "#add-block",
+            title: "Create Block",
+            content: "Use this button to add a new block to the blockchain. click next to add your first block",
+            onShow: function(tour) {
+                $('.cube').click();
+            }
+        }, {
+            element: "#blank",
+            title: "Create Block",
+            content: "Great now you have two blocks in the blockchain, let's go ahead and add another block",
+            onShow: function(tour) {
+                $('#add-block').click();
+            }
+        }, {
+            element: "#add-block",
+            title: "Create Another Block",
+            content: "Go ahead and add another block to the chain",
+            onShow: function(tour) {
+                //  $('#add-block').click();
+            }
+        }, {
+            element: "#block-1",
+            title: "Block Immutability",
+            placement: "bottom",
+            content: "Once Data is stored in a block it cannt be changed, changing it breaks the blockchain. Use the edit button to change the amount in block 1",
+            onShow: function(tour) {
+                $('#block-1 .cube').click();
+            }
+        }, {
+            element: "#blank",
+            title: "Block Immutability",
+            placement: "bottom",
+            content: "Since we have changed the original data in block 1 , the hash changes too and this breaks the link on the chain",
+            onShow: function(tour) {
+                $('#block-1 .cube').click();
+            }
+        }, {
+            element: "#blank",
+            title: "Done!!",
+            placement: "bottom",
+            content: "That's it for this tutorial. go ahead and play around some more with the tools, future releases of BlockPlay will allow you to do more like create your own virtual cryptocurrency",
+        }]
+    });
+    // Initialize the tour
+    tour.init();
 
+    $(document).ready(function() {
+        $('[data-toggle="popover"]').popover({
+            container: 'body'
+        })
+
+    });
+    $('.wel-learn').click(function() {
+        $('#modal-container-welcome').modal('hide');
+
+        // Start the tour
+
+        tour.start(true);
+        tour.goTo(0)
+    });
+    $('.wel-watch').click(function() {
+        $('#intro').fadeOut()
+        $('#video').fadeIn()
+    });
+</script>
 
 </html>

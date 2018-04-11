@@ -1,12 +1,7 @@
-<button (click)="addblock()" type="button" class="btn btn-success" id="add-block">
-    Button
-  </button>
-
 <div class="template2">
     <div class="col-md-2" *ngFor="let block of blockchain" id="block-{{block.index}}">
-        <div class="wrapper" id="guy">
-            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="
-          '<input [(ngModel)]=block.data.amount>'">
+        <div class="wrapper" id="guy" (click)="SetCurrentBlock(block.index)">
+            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="'<span><b>Timestamp:</b> '+block.timestamp+'</span><span><b>Previous Hash:</b> '+(block.previousHash | slice:0:10) +'</span><span><b>Hash:</b> '+  (block.hash | slice:0:10) +' </span><span class=block-data>Amount: '+ block.data.amount+' <a href=#modal-container-editblock  data-toggle=modal>Edit</a></span> '">
                 <b class="front">{{block.index}}</b>
                 <b class="back"></b>
                 <b class="top"></b>
@@ -17,4 +12,32 @@
         </div>
     </div>
 </div>
-{{currentData}} {{childMessage}}
+<!--Modal Window -->
+<div class="modal fade" id="modal-container-editblock" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="Edit-data">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            ×
+                                        </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Edit {{ (blockchain[currentBlock].index==0)?'Genesis Block':'Block '+blockchain[currentBlock].index}} data
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    Amount:
+                    <input (change)="BlockChange(currentBlock)" [(ngModel)]="blockchain[currentBlock].data.amount">
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            Close
+                                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

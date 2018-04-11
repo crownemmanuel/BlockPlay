@@ -1,15 +1,91 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="navbar-header">
-                    BlockPlay
-                </div>
-            </nav>
+    <div class="row top-nav ">
+        <div class="col-md-3">
+            <img src="assets/images/logo.png" width="200" />
+        </div>
+        <div class="col-md-9 menu-wrapper">
+            <button class="btn " data-toggle="popover" data-html="true" title="Coming Soon" data-trigger="focus" data-content="This feature is still cooking. We currently only support creating basic blocks">Demos</button>
+
+            <a href="#modal-container-welcome" class="btn" data-toggle=modal>Help</a>
         </div>
     </div>
     <div class="row blocks-container">
-        <input [(ngModel)]="parentMessage">
-        <app-blocks [childMessage]="parentMessage"></app-blocks>
+        <div class="col-md-2 left-menu">
+            <app-left-menu></app-left-menu>
+        </div>
+        <div class="col-md-10">
+            <app-blocks [blockchain]="blockchain" [chain]="newchain" [modalAction]="modalAction"></app-blocks>
+        </div>
+
     </div>
+</div>
+
+<div class="modal fade" id="modal-container-920512" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="add-data ">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    ×
+                                </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Block Data
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="info">Each block in a blockchain contains a ledger with some kind of data. in version 1 of BlockPlay we only support a basic amount value for each block but in feature releases you will be able to store what ever kind of data you want eg
+                        votes
+                    </div>
+                    <div>Enter new amount Below</div>
+
+                    <input [(ngModel)]="currentAmount">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="create-block" (click)="addblock()" class="btn btn-default" data-dismiss="modal">
+                                Create Block
+                            </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    Close
+                                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modal-container-welcome" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 top-container">
+                    <div class="logo-large"> </div>
+                    <div id="video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/SSo_EIwHSd4?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div id="intro">
+                        Blockplay is a virtual block chain builder for non developers. Blockplay helps you understand how blockchains works under the hood by giving you a virtual enviroment to build you own block chain with writing a single line of code
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="wel-watch"> </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="wel-learn"> </div>
+                </div>
+
+                <p> &nbsp;</p>
+            </div>
+
+        </div>
+    </div>
+
 </div>

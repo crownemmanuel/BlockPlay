@@ -10,6 +10,10 @@ class Block {
     }
 
     calculateHash() {
+        console.log(this.index)
+        console.log(this.previousHash)
+        console.log(this.timestamp)
+        console.log(JSON.stringify(this.data))
         return hex_sha256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data));
     }
 }
@@ -21,7 +25,7 @@ class Blockchain {
     }
 
     createGenesisBlock() {
-        return new Block(0, "01/01/2017", "Genesis block", "0");
+        return new Block(0, getFormattedDate(), { amount: "100" }, "0");
     }
 
     getLatestBlock() {
@@ -35,35 +39,25 @@ class Blockchain {
     }
 
     isChainValid() {
+        //  jQuery(".broken").removeClass("broken");
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
+            const blockElId = "#block-" + currentBlock.index;
+
 
             if (currentBlock.hash !== currentBlock.calculateHash()) {
-                return false;
-            }
-
-            if (currentBlock.previousHash !== previousBlock.hash) {
-                return false;
+                if (currentBlock.index != this.chain.length - 1)
+                    jQuery(blockElId).addClass("broken");
+                console.log("current: " + currentBlock.hash)
+                console.log("new: " + currentBlock.calculateHash())
+            } else if (currentBlock.previousHash !== previousBlock.hash) {
+                jQuery(blockElId).addClass("broken");
+            } else {
+                jQuery(blockElId).removeClass("broken");
             }
         }
 
         return true;
     }
 }
-
-var savjeeCoin = new Blockchain();
-savjeeCoin.addBlock(new Block(1, "20/07/2017", { amount: 4 }));
-savjeeCoin.addBlock(new Block(2, "20/07/2017", { amount: 8 }));
-
-
-console.log('Blockchain valid? ' + savjeeCoin.isChainValid());
-
-console.log('Changing a block...');
-savjeeCoin.chain[1].data = { amount: 100 };
-// savjeeCoin.chain[1].hash = savjeeCoin.chain[1].calculateHash();
-
-console.log("Blockchain valid? " + savjeeCoin.isChainValid());
-console.log("Blockchain " + JSON.stringify(savjeeCoin));
-
-// console.log(JSON.stringify(savjeeCoin, null, 4));
