@@ -7,6 +7,7 @@ class Block {
         this.timestamp = timestamp;
         this.data = data;
         this.hash = this.calculateHash();
+        this.nonce = 0;
     }
 
     calculateHash() {
@@ -38,19 +39,27 @@ class Blockchain {
         this.chain.push(newBlock);
     }
 
+    mineBlock(difficulty) {
+        console.log(this.nonce);
+        while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+            this.nonce++;
+            this.hash = this.calculateHash();
+        }
+        console.log(this.nonce);
+
+        console.log("BLOCK MINED: " + this.hash);
+    }
+
     isChainValid() {
         //  jQuery(".broken").removeClass("broken");
         for (let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
-            const blockElId = "#block-" + currentBlock.index;
-
+            const blockElId = "#block-" + previousBlock.index
 
             if (currentBlock.hash !== currentBlock.calculateHash()) {
                 if (currentBlock.index != this.chain.length - 1)
                     jQuery(blockElId).addClass("broken");
-                console.log("current: " + currentBlock.hash)
-                console.log("new: " + currentBlock.calculateHash())
             } else if (currentBlock.previousHash !== previousBlock.hash) {
                 jQuery(blockElId).addClass("broken");
             } else {
