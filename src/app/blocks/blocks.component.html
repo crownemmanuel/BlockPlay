@@ -1,13 +1,19 @@
 <div class="template2">
     <div class="col-md-2" *ngFor="let block of blockchain" id="block-{{block.index}}">
-        <div class="wrapper" id="guy" (click)="SetCurrentBlock(block.index)">
-            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="'<span><b>Timestamp:</b> '+block.timestamp+'</span><span><b>Previous Hash:</b> '+(block.previousHash | slice:0:10) +'</span><span><b>Hash:</b> '+  (block.hash | slice:0:10) +' </span><span class=block-data>Amount: '+ block.data.amount+' <a href=#modal-container-editblock  data-toggle=modal>Edit</a></span> '">
-                <b class="front">{{block.index}}</b>
-                <b class="back"></b>
-                <b class="top"></b>
-                <b class="bottom"></b>
-                <b class="left">{{block.index}}</b>
-                <b class="right"></b>
+        <div class="wrapper" (click)="SetCurrentBlock(block.index)">
+            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="
+            '<span><b>Timestamp:</b> '+block.timestamp+'</span>
+            <span><b>Previous Hash:</b> '+(block.previousHash | slice:0:10) +'</span>
+            <span><b>Hash:</b> '+  (block.hash | slice:0:10) +' </span>
+            <span><b>Nonce:</b> '+  block.nonce  +' </span>
+            <span><b>Mined by:</b> Miner '+  (block.miner+1) +' </span>
+            <span class=block-data>Data: '+ block.data.amount+' <a href=#modal-container-editblock  data-toggle=modal>Edit</a></span> '">
+                <b class="front">{{(block.hash | slice:6:10)}}</b>
+                <b class="back">{{block.index}}</b>
+                <b class="top">{{block.index}} </b>
+                <b class="bottom">{{block.index}}</b>
+                <b class="left">{{(block.index==0)?block.previousHash: (block.previousHash| slice:6:10)}}</b>
+                <b class="right">{{block.index}}</b>
             </div>
         </div>
     </div>
@@ -27,7 +33,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    Amount:
+                    Data:
                     <input (change)="BlockChange(currentBlock)" [(ngModel)]="blockchain[currentBlock].data.amount">
                 </div>
                 <div class="modal-footer">

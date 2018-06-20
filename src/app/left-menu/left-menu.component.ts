@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+declare var jQuery: any;
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
@@ -11,5 +11,9 @@ export class LeftMenuComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  status: boolean = false;
+  Toggle(){
+      this.status = !this.status;    
+      jQuery(".miners").toggle("slide");
+  }
 }

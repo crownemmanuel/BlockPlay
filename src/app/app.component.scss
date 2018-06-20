@@ -1,0 +1,25 @@
+.plus-minus-input {
+    align-items: center;
+    .input-group-field {
+        text-align: center;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        padding: 1rem;
+        flex: 1 1 0px;
+        &::-webkit-inner-spin-button,
+         ::-webkit-outer-spin-button {
+            appearance: none;
+        }
+    }
+    .input-group-button {
+        flex: 0 0 auto;
+        .circle {
+            border-radius: 50%;
+            padding: 0.25em 0.8em;
+        }
+    }
+}
+
+.input-group {
+    display: inline-flex;
+}

@@ -1,0 +1,33 @@
+.tab-content {
+    height: 490px;
+    overflow: scroll;
+}
+
+.mine {
+    background: #00658bb3;
+    margin-top: 25px;
+    color: #FFF;
+}
+
+.mined {
+    background: #F5CC8E99;
+}
+
+.success {
+    background: #E7F39C80;
+    color: #000;
+}
+
+p {
+    padding: 5px 10px;
+    background: #FFF;
+    box-shadow: 0px 0px 2px #CCC;
+    color: #2B3A4B;
+    margin: 5px;
+    // margin-top: 2px;
+}
+
+.error {
+    background: #ffb7b7;
+    color: #740505;
+}

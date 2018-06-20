@@ -43,3 +43,23 @@ function getFormattedDate() {
 
     return str;
 }
+
+function calculateHash(block) {
+    /*  console.log("noun");
+      console.log(block.index);
+      console.log(block.previousHash);
+      console.log(block.timestamp);
+      console.log(block.data);
+      console.log(block);*/
+    // console.log(hex_sha256(block.index + block.previousHash + block.timestamp + JSON.stringify(block.data)));
+    return hex_sha256(block.index + block.previousHash + block.timestamp + JSON.stringify(block.data) + JSON.stringify(block.nonce));
+}
+
+function Log(type, message) {
+    return {
+        'type': type,
+        'message': message
+    }
+}
+//As a worker normally take another JavaScript file to execute we convert the function in an URL: http://stackoverflow.com/a/16799132/2576706
+function getScriptPath(foo) { return window.URL.createObjectURL(new Blob([foo.toString().match(/^\s*function\s*\(\s*\)\s*\{(([\s\S](?!\}$))*[\s\S])/)[1]], { type: 'text/javascript' })); }
