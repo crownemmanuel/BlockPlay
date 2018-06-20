@@ -84,7 +84,6 @@ export class AppComponent implements OnInit  {
     }
 
     onResponse(event) {
-        console.log(event);
         var newBlock = event.data.block;
         var logs =event.data.logs;
         if (logs == null) {

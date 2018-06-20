@@ -6,7 +6,7 @@ self.addEventListener('message', function(e) {
     newBlock = e.data.block;
     difficulty = e.data.difficulty;
     foundNonce = 1;
-    var d = new Date();
+    var MineStartDate = new Date();
 
 
     BroadcastLog('mine', "Mining started..", newBlock)
@@ -28,15 +28,16 @@ self.addEventListener('message', function(e) {
     } else {
         newBlock.hash = calculateHash(newBlock)
     }
-    BroadcastLog('mined', "Block successfully mined after " + newBlock.nonce + " tries block hash " + newBlock.hash, newBlock)
+    var MineEndDate = new Date();
+    var timeDiff = Math.abs(MineEndDate.getTime() - MineStartDate.getTime());
+    var seconds = (timeDiff / 1000);
+
+    BroadcastLog('mined', "Block successfully mined after " + newBlock.nonce + " tries and " + seconds + " Seconds block hash " + newBlock.hash, newBlock)
     BroadcastLog('normal', "Sending block to blockchain", newBlock)
     self.postMessage({
         'block': newBlock,
         'logs': null
     });
-    var d = new Date();
-    //  console.log(d)
-    //   console.log(newBlock)
 }, false);
 
 function BroadcastLog(type, message, Block) {
