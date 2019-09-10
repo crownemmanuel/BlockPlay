@@ -1,0 +1,25 @@
+.side-menu-container {
+    .navbar-nav>li {
+        float: none !important;
+    }
+}
+.navbar-default {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+.navbar {
+    margin:0;
+}
+.left-menu {
+    background: #2A3A4A;
+    min-height: 800px;
+    padding: 20px;
+    margin-top: -20px;
+    margin-left: -17px;
+    padding-right: 40px;
+}
+.slide-in {
+    margin-top: -45px;
+    z-index: 9;
+}

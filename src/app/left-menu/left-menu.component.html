@@ -1,6 +1,20 @@
-<p>
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Main Menu -->
+    <div class="side-menu-container">
+        <ul class="nav navbar-nav left-menu">
+            <li>  <a href=#modal-container-920512 style="display:none" class="btn btn-sucess" id="add-block" data-toggle=modal>Create Block</a></li>
+            <li class="active">   <a href=#modal-container-920512 class="btn btn-sucess" id="add-transaction" data-toggle=modal></a></li>
+            <li> <a id="proof-of-work" href="#modal-container-POW" class="btn" data-toggle=modal></a></li>
+            <li>  <button class="btn " id="miners" (click)="Toggle()"></button></li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+<!-- Brand and toggle get grouped for better mobile display -->
+<p style="display:none">
     <a href=#modal-container-920512 class="btn btn-sucess" id="add-block" data-toggle=modal>Create Block</a>
-    <button class="btn " id="add-transaction" data-toggle="popover" data-html="true" title="Coming Soon" data-trigger="focus" data-content="This feature is still cooking. We currently only support creating basic blocks"></button>
+    <a href=#modal-container-920512 class="btn btn-sucess" id="add-transaction" data-toggle=modal></a>
+    <!-- <button class="btn " id="add-transaction" data-toggle="popover" data-html="true" title="Coming Soon" data-trigger="focus" data-content="This feature is still cooking. We currently only support creating basic blocks"></button> -->
     <a id="proof-of-work" href="#modal-container-POW" class="btn" data-toggle=modal></a>
     <button class="btn " id="miners" (click)="Toggle()"></button>
 </p>

@@ -1,20 +1,53 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tabbable" id="tabs-161141">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item" *ngFor="let miner of miners;let i= index">
-                        <a class="nav-link active show" href="#panel-{{i}}" data-toggle="tab">Miner {{(i+1)}}</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane " [ngClass]="(index==0) ? 'active ' : ''" *ngFor="let miner of miners;let i= index" id="panel-{{i}}">
-                        <p *ngFor="let log of miner.logs" class="log {{log.type}}">
-                            {{log.message}}
-                        </p>
-                    </div>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tabbable" id="tabs-161141" *ngIf="!mobileMining">
+        <ul class="nav nav-tabs">
+          <li class="nav-item" *ngFor="let miner of miners; let i = index">
+            <a
+              class="nav-link active show"
+              href="#panel-{{ i }}"
+              data-toggle="tab"
+              >Miner {{ i + 1 }}</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div
+            class="tab-pane "
+            [ngClass]="index == 0 ? 'active ' : ''"
+            *ngFor="let miner of miners; let i = index"
+            id="panel-{{ i }}"
+          >
+            <p *ngFor="let log of miner.logs" class="log {{ log.type }}">
+              {{ log.message }}
+            </p>
+          </div>
         </div>
+      </div>
+      <div class="mobile-miners" *ngIf="mobileMining && Mobileminers">
+        <div
+          class="col-md-3 col-2 col-lg-2 col-sm-6 mobile-miner"
+          *ngFor="let miner of Mobileminers"
+          id="{{ miner.id }}"
+        >
+          <div class="leader" *ngIf="Leader == miner.id">Leader</div>
+          <div class="avatar" style="float: left">
+            <img
+              class="irc_mi"
+              width="60px"
+              src="assets/images/avatars/{{ miner.avatar }}"
+            />
+          </div>
+          <div class="miner-info" style="float: left">
+            <span class="name">{{ miner.name }} </span>
+          </div>
+        </div>
+      </div>
+      <div class="no-mobile-miners" *ngIf="!Mobileminers || Mobileminers == ''">
+        <img src="assets/images/miners-on-phone.png" />
+        <div>Waiting for miners to join...</div>
+      </div>
     </div>
+  </div>
 </div>

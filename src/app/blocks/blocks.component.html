@@ -1,49 +1,155 @@
 <div class="template2">
-    <div class="col-md-2" *ngFor="let block of blockchain" id="block-{{block.index}}">
-        <div class="wrapper" (click)="SetCurrentBlock(block.index)">
-            <div class="cube" data-toggle="popover" data-html="true" title="{{ (block.index==0)?'Genesis Block':'Block '+block.index}}" [attr.data-content]="
-            '<span><b>Timestamp:</b> '+block.timestamp+'</span>
-            <span><b>Previous Hash:</b> '+(block.previousHash | slice:0:10) +'</span>
-            <span><b>Hash:</b> '+  (block.hash | slice:0:10) +' </span>
-            <span><b>Nonce:</b> '+  block.nonce  +' </span>
-            <span><b>Mined by:</b> Miner '+  (block.miner+1) +' </span>
-            <span class=block-data>Data: '+ block.data.amount+' <a href=#modal-container-editblock  data-toggle=modal>Edit</a></span> '">
-                <b class="front">{{(block.hash | slice:6:10)}}</b>
-                <b class="back">{{block.index}}</b>
-                <b class="top">{{block.index}} </b>
-                <b class="bottom">{{block.index}}</b>
-                <b class="left">{{(block.index==0)?block.previousHash: (block.previousHash| slice:6:10)}}</b>
-                <b class="right">{{block.index}}</b>
-            </div>
-        </div>
+  <div
+    class="col-md-2"
+    *ngFor="let block of blockchain"
+    id="block-{{ block.index }}"
+  >
+    <div class="wrapper" (click)="SetCurrentBlock(block.index)">
+      <div
+        class="cube"
+        data-toggle="popover"
+        data-html="true"
+        title="{{
+          block.index == 0 ? 'Genesis Block' : 'Block ' + block.index
+        }}"
+        [attr.data-content]="
+          '<span><b>Timestamp:</b> ' +
+          block.timestamp +
+          '</span>
+            <span><b>Previous Hash:</b> ' +
+          (block.previousHash | slice: 0:10) +
+          ' <a href=#modal-container-editblockPreviousHash  data-toggle=modal>Edit</a></span>
+            <span><b>Hash:</b> ' +
+          (block.hash | slice: 0:10) +
+          ' <a id=copy-hash class=copy >Copy</a></span>
+            <span id=\'difficulty-' +
+          difficulty +
+          '\'><b>Nonce:</b> ' +
+          block.nonce +
+          ' </span>
+            <span id=\'difficulty-' +
+          difficulty +
+          '\'><b>Mined by:</b> ' +
+          block.miner +
+          ' </span>
+            <span id=\'' +
+          block.miningTime +
+          '\'><b>Mined in:</b> ' +
+          block.miningTime +
+          ' seconds</span>
+            <span id=\'' +
+          block.numberOfTries +
+          '\'><b>No of tries:</b> ' +
+          block.numberOfTries +
+          ' </span>
+            <span class=block-data>Data: ' +
+          block.data.amount +
+          ' <a href=#modal-container-editblock  data-toggle=modal>Edit</a></span> '
+        "
+      >
+        <b class="front">{{ block.hash | slice: 6:10 }}</b>
+        <b class="back">{{ block.index }}</b>
+        <b class="top">{{ block.index }} </b>
+        <b class="bottom">{{ block.index }}</b>
+        <b class="left">{{
+          block.index == 0
+            ? block.previousHash
+            : (block.previousHash | slice: 6:10)
+        }}</b>
+        <b class="right">{{ block.index }}</b>
+      </div>
     </div>
+  </div>
 </div>
-<!--Modal Window -->
-<div class="modal fade" id="modal-container-editblock" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="Edit-data">
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                            ×
-                                        </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Edit {{ (blockchain[currentBlock].index==0)?'Genesis Block':'Block '+blockchain[currentBlock].index}} data
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    Data:
-                    <input (change)="BlockChange(currentBlock)" [(ngModel)]="blockchain[currentBlock].data.amount">
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                            Close
-                                        </button>
-                </div>
-            </div>
+<!--Edit Data Modal Window -->
+<div
+  class="modal fade"
+  id="modal-container-editblock"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="Edit-data">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            ×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Edit
+            {{
+              blockchain[currentBlock].index == 0
+                ? "Genesis Block"
+                : "Block " + blockchain[currentBlock].index
+            }}
+            data
+          </h4>
         </div>
+        <div class="modal-body">
+          Data:
+          <input
+            (change)="BlockChange(currentBlock)"
+            [(ngModel)]="blockchain[currentBlock].data.amount"
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
+<!--EDIT Previous Modal Window -->
+<div
+  class="modal fade"
+  id="modal-container-editblockPreviousHash"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="Edit-data">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            ×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Edit previous hash
+          </h4>
+        </div>
+        <div class="modal-body">
+          Data:
+          <input
+            class="form-control edit-hash"
+            (change)="BlockChange(currentBlock)"
+            [(ngModel)]="blockchain[currentBlock].previousHash"
+            class="edit-hash"
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="myTooltip" class="tooltip">
+  test
 </div>

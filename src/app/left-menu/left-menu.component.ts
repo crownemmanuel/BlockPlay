@@ -13,7 +13,11 @@ export class LeftMenuComponent implements OnInit {
   }
   status: boolean = false;
   Toggle(){
-      this.status = !this.status;    
+      this.status = !this.status;
       jQuery(".miners").toggle("slide");
   }
+ ToggleMenu() {
+    jQuery('.navbar-nav').toggleClass('slide-in');
+    jQuery('.side-body').toggleClass('body-slide-in');
+}
 }

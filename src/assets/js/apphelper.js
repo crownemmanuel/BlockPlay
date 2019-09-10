@@ -20,6 +20,17 @@ var AppHelper = {
     },
     StringNumber: function StringNumber(string, number) {
         return string + number;
+    },
+    InitFireBase: function InitFireBase() {
+        var config = {
+            apiKey: "AIzaSyCb_UiSjW_XoIeBoEcx1IO4YhvFhlW_2Ms",
+            authDomain: "blockplay-a5ff4.firebaseapp.com",
+            databaseURL: "https://blockplay-a5ff4.firebaseio.com",
+            projectId: "blockplay-a5ff4",
+            storageBucket: "blockplay-a5ff4.appspot.com",
+            messagingSenderId: "383706207111"
+        };
+        firebase.initializeApp(config);
     }
 
 }

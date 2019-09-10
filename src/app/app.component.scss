@@ -1,25 +1,44 @@
 .plus-minus-input {
-    align-items: center;
-    .input-group-field {
-        text-align: center;
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-        padding: 1rem;
-        flex: 1 1 0px;
-        &::-webkit-inner-spin-button,
-         ::-webkit-outer-spin-button {
-            appearance: none;
-        }
+  align-items: center;
+  .input-group-field {
+    text-align: center;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 1rem;
+    flex: 1 1 0px;
+    &::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      appearance: none;
     }
-    .input-group-button {
-        flex: 0 0 auto;
-        .circle {
-            border-radius: 50%;
-            padding: 0.25em 0.8em;
-        }
+  }
+  .input-group-button {
+    flex: 0 0 auto;
+    .circle {
+      border-radius: 50%;
+      padding: 0.25em 0.8em;
     }
+  }
 }
 
 .input-group {
-    display: inline-flex;
+  display: inline-flex;
+}
+.container-fluid {
+  padding: 0;
+}
+.connect-info {
+  color: #1067a3;
+  text-align: center;
+  font-size: 4em;
+  font-weight: bold;
+}
+.connect-header {
+  text-align: center;
+  font-size: 1.5em;
+  color: #7b7a7a;
+  font-weight: bold;
+}
+.copy-hash {
+  background: red !important;
+  display: block;
 }

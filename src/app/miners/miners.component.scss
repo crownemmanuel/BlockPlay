@@ -1,33 +1,79 @@
 .tab-content {
-    height: 490px;
-    overflow: scroll;
+  height: 490px;
+  overflow: scroll;
 }
 
 .mine {
-    background: #00658bb3;
-    margin-top: 25px;
-    color: #FFF;
+  background: #00658bb3;
+  margin-top: 25px;
+  color: #fff;
 }
 
 .mined {
-    background: #F5CC8E99;
+  background: #f5cc8e99;
 }
 
 .success {
-    background: #E7F39C80;
-    color: #000;
+  background: #e7f39c80;
+  color: #000;
 }
 
 p {
-    padding: 5px 10px;
-    background: #FFF;
-    box-shadow: 0px 0px 2px #CCC;
-    color: #2B3A4B;
-    margin: 5px;
-    // margin-top: 2px;
+  padding: 5px 10px;
+  background: #fff;
+  box-shadow: 0px 0px 2px #ccc;
+  color: #2b3a4b;
+  margin: 5px;
+  // margin-top: 2px;
 }
 
 .error {
-    background: #ffb7b7;
-    color: #740505;
+  background: #ffb7b7;
+  color: #740505;
+}
+.leader {
+  background: #98d298;
+  padding: 2px 56px;
+  position: absolute;
+  top: -34px;
+  border-radius: 30px;
+  left: 30px;
+  box-shadow: 2px 2px #8e8585;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.mobile-miners {
+  text-align: center;
+  .mobile-miner {
+    min-width: max-content;
+    border-radius: 15px;
+    margin: 10px;
+    background: #fff;
+    box-shadow: 2px 2px 2px #ccc;
+    padding-top: 5px;
+  }
+  .miner-info {
+    margin-left: 10px;
+  }
+  .reward,
+  .name {
+    color: #04acbd;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .name {
+    display: block;
+  }
+  .reward {
+    text-align: center;
+    display: inline-block;
+    width: 20%;
+  }
+}
+
+.no-mobile-miners {
+  color: #1dacbc;
+  font-size: 25px;
+  text-align: center;
 }

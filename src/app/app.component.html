@@ -1,142 +1,283 @@
 <div class="container-fluid">
-    <div class="row top-nav ">
-        <div class="col-md-3">
-            <img src="assets/images/logo.png" width="200" />
-        </div>
-        <div class="col-md-9 menu-wrapper">
-            <button class="btn " data-toggle="popover" data-html="true" title="Coming Soon" data-trigger="focus" data-content="This feature is still cooking. We currently only support creating basic blocks">Demos</button>
-
-            <a href="#modal-container-welcome" class="btn" data-toggle=modal>Help</a>
-        </div>
+  <div class="row top-nav navbar navbar-default">
+    <div class="col-md-3 left-top">
+      <img src="assets/images/logo.png" width="200" />
     </div>
-    <div class="row blocks-container">
-        <div class="col-md-2 left-menu">
-            <app-left-menu></app-left-menu>
-        </div>
-        <div class="col-md-10">
-            <app-blocks [blockchain]="blockchain" [chain]="newchain" [difficulty]="difficulty" [modalAction]="modalAction"></app-blocks>
-        </div>
-        <div class="col-md-10 miners">
-            <app-miners [miners]="miners"></app-miners>
-        </div>
+    <div class="col-md-9 menu-wrapper">
+      <!-- Hamburger -->
+      <button type="button" class="navbar-toggle" (click)="ToggleMenu()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
 
+      <button class="btn d-sm-block ">Network ID {{ nodeID }}</button>
+      <button
+        class="btn d-sm-block "
+        data-toggle="popover"
+        data-html="true"
+        title="Coming Soon"
+        data-trigger="focus"
+        data-content="This feature is still cooking. We currently only support creating basic blocks"
+      >
+        Demos
+      </button>
+      <a
+        href="#modal-container-welcome"
+        class="btn hidden-sm-down"
+        data-toggle="modal"
+        >Help</a
+      >
     </div>
+  </div>
+  <div class="row blocks-container">
+    <div class="col-md-2">
+      <app-left-menu></app-left-menu>
+    </div>
+    <div class="col-md-10">
+      <app-blocks
+        [blockchain]="blockchain"
+        [chain]="newchain"
+        [difficulty]="difficulty"
+        [modalAction]="modalAction"
+      ></app-blocks>
+    </div>
+    <div class="col-md-10 miners">
+      <div class="btn-mobileMining">
+        <button
+          *ngIf="mobileMining"
+          class="btn btn-primary"
+          (click)="resetMiners()"
+        >
+          Reset players
+        </button>
+        <a
+          href="#modal-container-connect"
+          *ngIf="mobileMining"
+          class="btn hidden-sm-down"
+          data-toggle="modal"
+          >Connection Info</a
+        >
+        <input
+          type="checkbox"
+          [checked]="mobileMining"
+          (change)="mobileMining = !mobileMining"
+        />
+        Enable Mobile Mining
+      </div>
+      <app-miners
+        [miners]="miners"
+        [Mobileminers]="Mobileminers"
+        [mobileMining]="mobileMining"
+        [Leader]="Leader"
+      ></app-miners>
+    </div>
+  </div>
 </div>
-
-<div class="modal fade" id="modal-container-920512" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="add-data ">
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                    ×
-                                </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Block Data
-                    </h4>
-                </div>
-
-                <div class="modal-body">
-                    <div class="info">Each block in a blockchain contains a ledger with some kind of data. in version 1 of BlockPlay we only support a basic amount value for each block but in feature releases you will be able to store what ever kind of data you want eg
-                        votes
-                    </div>
-                    <div>Enter new data Below</div>
-                    <input [(ngModel)]="currentAmount">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="create-block" (click)="addblock()" class="btn btn-default" data-dismiss="modal">
-                                Create Block
-                            </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Close
-                                </button>
-                </div>
-            </div>
+<div
+  class="modal fade"
+  id="modal-container-920512"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="add-data ">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            ×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Block Data
+          </h4>
         </div>
-    </div>
 
+        <div class="modal-body">
+          <div class="info">
+            Each block in a blockchain contains a ledger with some kind of data.
+            in version 1 of BlockPlay we only support a basic amount value for
+            each block but in feature releases you will be able to store what
+            ever kind of data you want eg votes
+          </div>
+          <div>Enter new data Below</div>
+          <input [(ngModel)]="currentAmount" />
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="create-block"
+            (click)="addblock()"
+            class="btn btn-default"
+            data-dismiss="modal"
+          >
+            Create Block
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- POW -->
-<div class="modal fade" id="modal-container-POW" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="add-data ">
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                    ×
-                                </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        Proof of Work
-                    </h4>
-                </div>
-
-                <div class="modal-body">
-                    <div class="info">
-                        <div>Enter difficulty Below</div>
-                        <div class="input-group plus-minus-input">
-                            <div class="input-group-button">
-                                <button type="button" class="button hollow circle" data-quantity="minus" data-field="difficulty">
-       -
-                     </button>
-                            </div>
-                            <input class="input-group-field" type="number" name="difficulty" [(ngModel)]="difficulty">
-                            <div class="input-group-button">
-                                <button type="button" class="button hollow circle" data-quantity="plus" data-field="difficulty">
-            +
-                  </button>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Close
-                                </button>
-                </div>
-            </div>
+<div
+  class="modal fade"
+  id="modal-container-POW"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="add-data ">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            ×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Proof of Work
+          </h4>
         </div>
-    </div>
 
+        <div class="modal-body">
+          <div class="info">
+            <div>Enter difficulty Below</div>
+            <div class="input-group plus-minus-input">
+              <div class="input-group-button">
+                <button
+                  type="button"
+                  class="button hollow circle"
+                  data-quantity="minus"
+                  data-field="difficulty"
+                >
+                  -
+                </button>
+              </div>
+              <input
+                class="input-group-field"
+                type="number"
+                name="difficulty"
+                [(ngModel)]="difficulty"
+              />
+              <div class="input-group-button">
+                <button
+                  type="button"
+                  class="button hollow circle"
+                  data-quantity="plus"
+                  data-field="difficulty"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Welcome Modal -->
-<div class="modal fade" id="modal-container-welcome" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                ×
-                                            </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-12 top-container">
-                    <div class="logo-large"> </div>
-                    <div id="video">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/SSo_EIwHSd4?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                    <div id="intro">
-                        Blockplay is a virtual block chain builder for non developers. Blockplay helps you understand how blockchains works under the hood by giving you a virtual enviroment to build you own block chain with writing a single line of code
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="wel-watch"> </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="wel-learn"> </div>
-                </div>
-
-                <p> &nbsp;</p>
-            </div>
-
+<div
+  class="modal fade"
+  id="modal-container-welcome"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12 top-container">
+          <div class="logo-large"></div>
+          <div id="video">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/SSo_EIwHSd4?rel=0"
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div id="intro">
+            Blockplay is a virtual block chain builder for non developers.
+            Blockplay helps you understand how blockchains works under the hood
+            by giving you a virtual enviroment to build you own block chain with
+            writing a single line of code
+          </div>
         </div>
-    </div>
+        <div class="col-md-6">
+          <div class="wel-watch"></div>
+        </div>
+        <div class="col-md-6">
+          <div class="wel-learn"></div>
+        </div>
 
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Welcome Modal -->
+<div
+  class="modal fade"
+  id="modal-container-connect"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header connect-header">
+        Connection Information
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12 top-container">
+          <div class="connect-info">
+            <div>www.blockplay.fun</div>
+            <div>ID: {{ nodeID }}</div>
+          </div>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  </div>
 </div>

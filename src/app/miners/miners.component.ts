@@ -1,17 +1,21 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input, Pipe, PipeTransform } from "@angular/core";
 
 @Component({
-  selector: 'app-miners',
-  templateUrl: './miners.component.html',
-  styleUrls: ['./miners.component.scss']
+  selector: "app-miners",
+  templateUrl: "./miners.component.html",
+  styleUrls: ["./miners.component.scss"]
 })
 export class MinersComponent implements OnInit {
-  @Input()  miners;
- 
-  constructor() { ;
-  }
+  @Input() miners;
+  @Input() mobileMining;
+  @Input() Mobileminers;
+  @Input() Leader;
 
-  ngOnInit() {
-  }
+  constructor() {}
 
+  ngOnInit() {}
+
+  objectKeys(obj) {
+    return Object.keys(obj);
+  }
 }
