@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>BlockPlay Mobile Miner</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap-3.3.7.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.3.3.7.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCb_UiSjW_XoIeBoEcx1IO4YhvFhlW_2Ms",
+            authDomain: "blockplay-a5ff4.firebaseapp.com",
+            databaseURL: "https://blockplay-a5ff4.firebaseio.com",
+            projectId: "blockplay-a5ff4",
+            storageBucket: "blockplay-a5ff4.appspot.com",
+            messagingSenderId: "383706207111"
+        };
+        var miners;
+        var transactions;
+        var UserId;
+        var netID;
+        var MinerName = "";
+        var numberOfTries = 0;
+        var MineStartDate;
+        var miningTime;
+        var miningReward = 0;
+        var trans = {
+            mined: false,
+            data: 100,
+            mathProblem: "2+3",
+            mathSolution: 5,
+            minedBy: "",
+            numberOfTries: 0,
+            miningTime: 0
+        }
+        firebase.initializeApp(config);
+        firebase.auth().signInAnonymously().catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // alert(errorMessage);
+            // ...
+        });
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+                var isAnonymous = user.isAnonymous;
+                UserId = user.uid
+
+
+                /* miners.push({
+            rewards: '0',
+            name: "crown"
+        });*/
+
+            } else {
+
+            }
+        });
+  
+
+        $("#mineAgain").fadeOut();
+function InitApp() {
+        miners = firebase.database().ref().child('networks/' +netID+'/miners');
+        transactions = firebase.database().ref().child('networks/' +netID+'/transactions');
+      
+        transactions.on("value", function(snapshot) {
+            trans = snapshot.val();
+            console.log(trans);
+            if (trans.mined == false) {
+                $("#transactions").html("New Transaction");
+                $("#transactions").append("<div> Data: " + trans.data + "</div>");
+                $("#transactions").append('<button class="btn btn-primary mine-btn" id="minethis" onclick="StartMining()">Mine This</button>');
+                $("#mathProblem").html(trans.mathProblem);
+                // $("#mineAgain").fadeIn();
+            } else {
+                $("#transactions").html('<div class="lds-ripple"><div></div><div></div></div><div>waiting for transactions</div>')
+            }
+            // console.log(JSON.stringify(snapshot.val(), null, 2));
+        });
+    }
+        function writeUserData() {
+            s = GeneteMathProblem(2);
+            firebase.database().ref('networks/' +netID+'/transactions').set({
+                mined: false,
+                data: 100,
+                mathProblem: s[0],
+                mathSolution: s[1],
+                minedBy: "",
+                numberOfTries: 0,
+                miningTime: 0
+            });
+        }
+
+        function GeneteMathProblem(diffculity) {
+            var operator = ['+', '-']
+            var solution = 0;
+            var equaption = "";
+
+            for (i = 0; i <= diffculity; i++) {
+                op = operator[Math.floor(Math.random() * operator.length)];
+                no = Math.floor(Math.random() * (diffculity * 10));
+                if (i == 0) {
+                    solution = no
+
+                } else {
+                    switch (op) {
+                        case "+":
+                            solution += no
+                            break;
+                        case "-":
+                            solution -= no
+                            break;
+                    }
+
+                    equaption += " " + op + " ";
+                }
+                equaption += no
+
+            }
+            return ([equaption, solution]);
+        }
+
+        function UpdateTransaction() {
+            firebase.database().ref('networks/' +netID+'/transactions').set({
+                mined: true,
+                data: trans.data,
+                mathProblem: trans.mathProblem,
+                mathSolution: trans.mathSolution,
+                minedBy: MinerName,
+                numberOfTries: numberOfTries,
+                miningTime: miningTime
+            }).then(function() {
+                $("#afterMine").removeClass("alert-danger")
+                $("#afterMine").addClass("alert-success")
+                $("#afterMine").html("Congratulations you were the fastest miner, your block has been accepted")
+                $("#afterMine").show()
+                miningReward += 1;
+                miners.child(UserId+"/reward").set(miningReward);
+                $("#miningReward").text(miningReward);
+                console.log("contras");
+            });
+        }
+
+        function StartMining() {
+            MineStartDate = new Date();
+            numberOfTries = 0;
+            $(".mining").fadeIn();
+            $("#mineAgain").fadeIn();
+            $("#transactions").fadeOut();
+        }
+
+        function MineAgain() {
+            $("#afterMine").hide()
+            $("#transactions").fadeIn();
+            $(".mining").fadeOut();
+            $("#mineAgain").fadeOut();
+        }
+
+        function SubmitBlock() {
+            numberOfTries++;
+            if ($("#solution").val() == trans.mathSolution) {
+                var MineEndDate = new Date();
+                var timeDiff = Math.abs(MineEndDate.getTime() - MineStartDate.getTime());
+                miningTime = (timeDiff / 1000);
+                if (trans.mined == false) {
+                    UpdateTransaction()
+                } else {
+                    console.log("failled");
+                    $("#afterMine").removeClass("alert-success")
+                    $("#afterMine").addClass("alert-danger")
+                    $("#afterMine").html("Sorry you where not the fastest miner, your block was rejected")
+                    $("#afterMine").show()
+                }
+                $("#notice").hide()
+                $(".mining").fadeOut();
+            } else {
+                console.log("wrong")
+                $("#notice").fadeIn()
+
+            }
+            $("#solution").val("")
+        }
+
+        function UpdateName() {
+            MinerName = $("#name").val()
+            netID = $("#networkid").val()
+            $("#netIDLabel").html( netID )
+            InitApp();
+            $(".miner-info").html(MinerName);
+            avatarID = Math.floor(Math.random() * 20);
+            miners.child(UserId + "/reward").set(0);
+            miners.child(UserId + "/name").set(MinerName);
+
+            var avatar = "unknown_" + avatarID + ".png";
+            $.ajax({
+
+                url: 'https://api.genderize.io/',
+                type: 'GET',
+                data: {
+                    'name': MinerName
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.gender == "male" && data.probability >= 0.80)
+                        avatar = "male_" + avatarID + ".png";
+                    if (data.gender == "female" && data.probability >= 0.80)
+                        avatar = "female_" + avatarID + ".png";
+                    miners.child(UserId + "/avatar").set(avatar);
+                },
+                error: function(request, error) {
+                    miners.child(UserId + "/avatar").set(avatar);
+                }
+            });
+
+            $("#welcome").fadeOut(function() {
+                $("#home").fadeIn();
+            })
+            $("body").removeClass("welcome-bg");
+
+        }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-132702822-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-132702822-2');
+</script>
+
+</head>
+
+<body class="welcome-bg">
+    <div class="container text-center">
+        <div class="row padding-md">
+            <div id="welcome">
+                <img class="home-logo" src="images/logo_large-w.png">
+                 <input type="tel" placeholder="Network ID" class="form-control" id="networkid" required>
+                 <input placeholder="First Name" class="form-control" id="name" required>
+                <button onclick="UpdateName()" class="bg-primary login-btn">Connect</button>
+                <div class="bg-figure"></div>
+            </div>
+            <div id="home">
+                <header>
+                    <div class="top-bar">
+                        BlockPlay
+                    </div>
+                    <div class="miningReward">
+                        <div class="left">
+                            Mining Reward : <span id="miningReward">0</span>
+                        </div>
+                        <div class="right">
+
+                            ID : <span id="netIDLabel">0</span>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="spacer"></div>
+                <div id="transactions" class="card">
+                    <div class="lds-ripple">
+                        <div></div>
+                        <div></div>
+                    </div>
+                    waiting for transactions
+
+                </div>
+                <div class="mining">
+
+                    <label>Solve this Equation</label>
+                    <div id="mathProblem"></div>
+                    <div class=" alert alert-danger" id="notice">
+                        Sorry your answer is incorrect
+                    </div>
+                    <label>Solution</label>
+                    <div>
+                        <input type="text" placeholder="Enter Solution " class="form-control " id="solution">
+                    </div>
+                    <button onclick="SubmitBlock() " class="SubmitBlock btn btn-primary col-md-8 col-xs-12 ">Submit</button>
+                </div>
+                <div id="afterMine" class="alert ">
+                    <div class="text "></div>
+                </div>
+                <div class="miner-info"></div>
+                <button onclick="MineAgain() " id="mineAgain" class="bg-primary mine-btn ">Mine Another</button>
+                <!-- <button onclick="writeUserData() " class="bg-primary ">Addd</button> -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
